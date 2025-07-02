@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="black">#FF000000</color>
+<!-- light theme colors -->
+    <color name="dark_navyBlue">#0E1B32</color>
+    <color name="light_navyBlue">#112241</color>
+    <color name="blue">#0159E8</color>
     <color name="white">#FFFFFFFF</color>
+
+
 </resources>
