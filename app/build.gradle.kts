@@ -11,6 +11,7 @@ android {
         viewBinding = true
     }
 
+
     defaultConfig {
         applicationId = "test.example.coincenter"
         minSdk = 24

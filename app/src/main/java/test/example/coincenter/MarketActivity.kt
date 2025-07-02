@@ -3,9 +3,10 @@ package test.example.coincenter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
-class MainActivity : AppCompatActivity() {
+class MarketActivity : AppCompatActivity() {
+//    lateinit var binding: MarketActivityBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.market_activity)
     }
 }
