@@ -7,7 +7,11 @@
         <item name="colorSecondary">@color/blue</item>
         <item name="colorOnSecondary">@color/white</item>
 
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+
         <item name="fontFamily">@font/poppins_regular</item>
+
 
     </style>
 

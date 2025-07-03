@@ -7,9 +7,13 @@
         <item name="colorSecondary">@color/light_navyBlue</item>
         <item name="colorOnSecondary">@color/white</item>
 
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <item name="android:windowLightStatusBar">false</item>
+
         <item name="fontFamily">@font/poppins_regular</item>
 
 
-
     </style>
+
+    <style name="Theme.CoinCenter" parent="Base.Theme.CoinCenter" />
 </resources>
