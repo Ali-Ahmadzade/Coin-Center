@@ -58,4 +58,7 @@ dependencies {
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     // loading image =>
     implementation("com.github.bumptech.glide:glide:4.16.0")
+    // loading news waiting =>
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
+    implementation("jackandphantom.android:circularimageview:1")
 }
