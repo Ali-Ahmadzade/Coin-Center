@@ -4,8 +4,9 @@
 
         <item name="colorPrimary">@color/white</item>
         <item name="colorOnPrimary">@color/dark_navyBlue</item>
-        <item name="colorSecondary">@color/blue</item>
-        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSecondary">@color/veryLight_blue</item>
+        <item name="colorOnSecondary">@color/dark_navyBlue</item>
+        <item name="colorAccent">@color/blue</item>
 
         <item name="android:statusBarColor">@color/white</item>
         <item name="android:windowLightStatusBar">true</item>
