@@ -1,4 +1,4 @@
-package test.example.coincenter.apimanagers.marketActivity
+package test.example.coincenter.main.marketActivity
 
 
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import test.example.coincenter.R
-import test.example.coincenter.apimanagers.models.CoinsData
+import test.example.coincenter.main.models.CoinsData
 import test.example.coincenter.databinding.CoinItemBinding
 
 class MarketAdapter(

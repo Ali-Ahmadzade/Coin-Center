@@ -1,12 +1,12 @@
-package test.example.coincenter.apimanagers
+package test.example.coincenter.main.apiManager
 
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import test.example.coincenter.apimanagers.models.CoinsData
-import test.example.coincenter.apimanagers.models.NewsData
+import test.example.coincenter.main.models.CoinsData
+import test.example.coincenter.main.models.NewsData
 
 const val API_KEY_COINS = "CG-cLuXk48fk1r3FYkHkY7utyz3"
 const val BASE_URL_COINS = "https://api.coingecko.com/api/v3/"
@@ -55,7 +55,7 @@ class ApiManager {
         })
     }
 
-    fun getCoins( apiCallback: ApiCallBack<List<CoinsData>> ) {
+    fun getCoins( apiCallback: ApiCallBack<List<CoinsData>>) {
         apiServiceCoins.getTopCoins().enqueue(object : Callback<List<CoinsData>> {
             override fun onResponse(
                 call: Call<List<CoinsData>>?,

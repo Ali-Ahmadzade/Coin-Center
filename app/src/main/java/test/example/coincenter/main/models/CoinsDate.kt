@@ -1,8 +1,11 @@
-package test.example.coincenter.apimanagers.models
+package test.example.coincenter.main.models
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class CoinsData(
     val name: String, // اسم کامل رمز ارز
     @SerializedName("current_price")
@@ -29,4 +32,4 @@ data class CoinsData(
     val circulatingSupply: Double, // مقدار در حال گردش
     @SerializedName("ath")
     val allTimeHigh: Double // بالاترین قیمت تاریخ
-)
+) :Parcelable

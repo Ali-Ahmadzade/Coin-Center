@@ -1,10 +1,10 @@
-package test.example.coincenter.apimanagers
+package test.example.coincenter.main.apiManager
 
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
-import test.example.coincenter.apimanagers.models.CoinsData
-import test.example.coincenter.apimanagers.models.NewsData
+import test.example.coincenter.main.models.CoinsData
+import test.example.coincenter.main.models.NewsData
 
 interface ApiService {
 

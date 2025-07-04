@@ -1,15 +1,18 @@
-package test.example.coincenter.apimanagers.marketActivity
+package test.example.coincenter.main.marketActivity
 
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import test.example.coincenter.apimanagers.ApiManager
-import test.example.coincenter.apimanagers.models.CoinsData
+import test.example.coincenter.main.apiManager.ApiManager
+import test.example.coincenter.main.models.CoinsData
 import test.example.coincenter.databinding.MarketActivityBinding
+import test.example.coincenter.main.coinActivity.CoinActivity
 
 
 class MarketActivity : AppCompatActivity(), MarketAdapter.RecyclerCallBack {
@@ -25,6 +28,12 @@ class MarketActivity : AppCompatActivity(), MarketAdapter.RecyclerCallBack {
         binding.recyclerLayout.btnMore.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.coingecko.com/"))
             startActivity(intent)
+        }
+        binding.swipeRefreshMarket.setOnRefreshListener {
+            loadMarket()
+            Handler(Looper.getMainLooper()).postDelayed({
+                binding.swipeRefreshMarket.isRefreshing = false
+            } , 1500 )
         }
     }
 
@@ -78,7 +87,9 @@ class MarketActivity : AppCompatActivity(), MarketAdapter.RecyclerCallBack {
     }
 
     override fun onCoinItemClicked(coinsData: CoinsData) {
-        Toast.makeText(this, "HEHE", Toast.LENGTH_SHORT).show()
+        val intent = Intent(this , CoinActivity::class.java )
+        intent.putExtra("dataToSend" , coinsData  )
+        startActivity(intent)
     }
 
 }

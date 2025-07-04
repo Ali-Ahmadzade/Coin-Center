@@ -1,4 +1,4 @@
-package test.example.coincenter.apimanagers.models
+package test.example.coincenter.main.models
 
 
 import com.google.gson.annotations.SerializedName
