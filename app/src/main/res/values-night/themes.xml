@@ -13,6 +13,8 @@
 
         <item name="fontFamily">@font/poppins_regular</item>
 
+        <item name="customTextColor">@color/white_gray</item>
+
 
     </style>
 

@@ -41,7 +41,19 @@
         app:layout_constraintStart_toEndOf="@+id/img_news"
         app:layout_constraintTop_toTopOf="@+id/img_news" />
 
-
+    <TextView
+        android:id="@+id/txtErrorNews"
+        android:visibility="invisible"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:text="@string/networkProblem"
+        android:textColor="?attr/colorOnPrimary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/img_news"
+        app:layout_constraintStart_toEndOf="@+id/img_news"
+        app:layout_constraintTop_toTopOf="@+id/img_news"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
