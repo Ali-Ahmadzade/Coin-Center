@@ -36,7 +36,8 @@
         app:layout_constraintTop_toBottomOf="@id/recyclerMain" />
 
     <com.google.android.material.button.MaterialButton
-        android:backgroundTint="?attr/colorAccent"
+        app:backgroundTint="@null"
+        android:background="@drawable/more_btn"
         android:textColor="@color/white"
         android:id="@+id/btn_more"
         android:layout_margin="8dp"

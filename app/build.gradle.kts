@@ -54,7 +54,7 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.0.2")
     implementation("com.squareup.retrofit2:converter-gson:2.0.2")
     // chart =>
-    implementation("com.robinhood.spark:spark:1.2.0")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     // swipe refresh =>
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     // loading image =>

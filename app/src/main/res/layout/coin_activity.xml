@@ -1,49 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    android:orientation="vertical"
+<androidx.coordinatorlayout.widget.CoordinatorLayout android:orientation="vertical"
     android:background="?attr/colorPrimary"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".main.marketActivity.MarketActivity"
+    tools:context=".main.coinActivity.CoinActivity"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <include
-        android:id="@+id/include_toolBar_mkt"
+        android:id="@+id/include_toolBar_coin"
         layout="@layout/toolbar_layout"/>
     
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        android:id="@+id/swipeRefreshMarket"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/swipeRefreshCoin">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <include
-                    android:id="@+id/include_news"
-                    layout="@layout/news_layout"/>
-
-                <include
-                    android:id="@+id/recycler_layout"
-                    layout="@layout/coinslist_layout"/>
+                    android:id="@+id/chart_layout_coin"
+                    layout="@layout/chart_layout"/>
 
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>
 
 
-
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
 
 
 

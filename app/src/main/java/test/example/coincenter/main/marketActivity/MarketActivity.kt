@@ -24,7 +24,7 @@ class MarketActivity : AppCompatActivity(), MarketAdapter.RecyclerCallBack {
         binding = MarketActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        loadMarket()
+
         binding.recyclerLayout.btnMore.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.coingecko.com/"))
             startActivity(intent)
@@ -62,6 +62,11 @@ class MarketActivity : AppCompatActivity(), MarketAdapter.RecyclerCallBack {
         binding.includeNews.newsLayout.setOnClickListener {
             refreshNews()
         }
+    }
+
+    override fun onResume(){
+        super.onResume()
+        loadMarket()
     }
 
     private fun loadCoinsInMkt() {
