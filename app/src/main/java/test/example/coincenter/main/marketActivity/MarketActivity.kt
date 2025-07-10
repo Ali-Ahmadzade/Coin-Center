@@ -38,23 +38,23 @@ class MarketActivity : AppCompatActivity(), MarketAdapter.RecyclerCallBack {
     }
 
     private fun loadMarket() {
-        loadNewsInMkt()
+//        loadNewsInMkt()
         loadCoinsInMkt()
     }
 
-    private fun loadNewsInMkt() {
-        apiManager.getNews(object : ApiManager.ApiCallBack<ArrayList<String>> {
-            override fun onSuccess(data: ArrayList<String>) {
-                newsData = data
-                refreshNews()
-            }
-
-            override fun onFailure(message: String) {
-                binding.includeNews.txtErrorNews.visibility = View.VISIBLE
-            }
-
-        })
-    }
+//    private fun loadNewsInMkt() {
+//        apiManager.getNews(object : ApiManager.ApiCallBack<ArrayList<String>> {
+//            override fun onSuccess(data: ArrayList<String>) {
+//                newsData = data
+//                refreshNews()
+//            }
+//
+//            override fun onFailure(message: String) {
+//                binding.includeNews.txtErrorNews.visibility = View.VISIBLE
+//            }
+//
+//        })
+//    }
 
     private fun refreshNews() {
         val randomNewsNum: Int = (0..19).random()

@@ -34,26 +34,26 @@ class ApiManager {
         apiServiceCoins = retrofitCoins.create(ApiService::class.java)
     }
 
-    fun getNews(apiCallback: ApiCallBack<ArrayList<String>>) {
-        apiServiceNews.getNews().enqueue(object : Callback<NewsData> {
-            override fun onResponse(call: Call<NewsData>?, response: Response<NewsData>?) {
-
-                val news = response!!.body()
-
-                val dataToSend: ArrayList<String> = arrayListOf()
-
-                news.results.forEach {
-                    dataToSend.add(it.title)
-                }
-                apiCallback.onSuccess(dataToSend)
-            }
-
-            override fun onFailure(call: Call<NewsData>?, t: Throwable?) {
-                apiCallback.onFailure(t!!.message.toString())
-            }
-
-        })
-    }
+//    fun getNews(apiCallback: ApiCallBack<ArrayList<String>>) {
+//        apiServiceNews.getNews().enqueue(object : Callback<NewsData> {
+//            override fun onResponse(call: Call<NewsData>?, response: Response<NewsData>?) {
+//
+//                val news = response!!.body()
+//
+//                val dataToSend: ArrayList<String> = arrayListOf()
+//
+//                news.results.forEach {
+//                    dataToSend.add(it.title)
+//                }
+//                apiCallback.onSuccess(dataToSend)
+//            }
+//
+//            override fun onFailure(call: Call<NewsData>?, t: Throwable?) {
+//                apiCallback.onFailure(t!!.message.toString())
+//            }
+//
+//        })
+//    }
 
     fun getCoins( apiCallback: ApiCallBack<List<CoinsData>>) {
         apiServiceCoins.getTopCoins().enqueue(object : Callback<List<CoinsData>> {

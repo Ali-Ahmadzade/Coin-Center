@@ -1,6 +1,5 @@
 package test.example.coincenter.main.models
 
-
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
@@ -17,6 +16,7 @@ data class CoinsData(
     @SerializedName("image")
     val image: String,
 
+
     // آمار روزانه:
     @SerializedName("high_24h")
     val high24h: Double, // بالاترین قیمت امروز
@@ -31,5 +31,8 @@ data class CoinsData(
     @SerializedName("circulating_supply")
     val circulatingSupply: Double, // مقدار در حال گردش
     @SerializedName("ath")
-    val allTimeHigh: Double // بالاترین قیمت تاریخ
+    val allTimeHigh: Double, // بالاترین قیمت تاریخ
+    @SerializedName("market_cap_rank")
+    val marketCapRank: Int?
+
 ) :Parcelable

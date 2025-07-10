@@ -24,7 +24,7 @@
 
     <TextView
         android:layout_marginTop="4dp"
-        android:textSize="18sp"
+        android:textSize="22sp"
         android:id="@+id/changePriceIcon_coin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
         android:id="@+id/priceChange_coin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="6dp"
         android:text="$10.14"
         app:layout_constraintBottom_toBottomOf="@+id/changePriceIcon_coin"
         app:layout_constraintStart_toEndOf="@+id/changePriceIcon_coin"
