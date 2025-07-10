@@ -31,6 +31,10 @@
                     android:id="@+id/chart_layout_coin"
                     layout="@layout/chart_layout"/>
 
+                <include
+                    android:id="@+id/statistics_layout_coin"
+                    layout="@layout/statistic_layout"/>
+
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>

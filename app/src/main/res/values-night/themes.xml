@@ -19,4 +19,22 @@
     </style>
 
     <style name="Theme.CoinCenter" parent="Base.Theme.CoinCenter" />
+
+    <style name="CoinBitText" parent="Base.TextAppearance.AppCompat.Caption">
+
+    </style>
+    <style name="CoinBitText.statisticsPrice" parent="CoinBitText">
+
+        <item name="android:textColor">?attr/colorOnSecondary</item>
+        <item name="android:textSize">18sp</item>
+
+    </style>
+
+    <style name="CoinBitText.statisticsText" parent="CoinBitText">
+
+        <item name="android:textColor">?attr/customTextColor</item>
+        <item name="android:textSize">14sp</item>
+
+    </style>
+
 </resources>
