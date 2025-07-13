@@ -30,7 +30,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txt_statistics">
 
         <TextView
-            android:id="@+id/high24H"
+            android:id="@+id/todayOpen"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             app:layout_constraintTop_toTopOf="parent"
@@ -41,53 +41,53 @@
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:id="@+id/txt_high24H"
+            android:id="@+id/txt_todayOpen"
             style="@style/CoinBitText.statisticsText"
-            android:text="Today's High"
-            app:layout_constraintStart_toStartOf="@id/high24H"
-            app:layout_constraintTop_toBottomOf="@id/high24H"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="Today's Open"
+            app:layout_constraintStart_toStartOf="@id/todayOpen"
+            app:layout_constraintTop_toBottomOf="@id/todayOpen" />
 
         <TextView
-            android:id="@+id/low24H"
+            android:id="@+id/highToday"
             style="@style/CoinBitText.statisticsPrice"
             android:text="$104,000"
             android:layout_marginTop="24dp"
-            app:layout_constraintStart_toStartOf="@id/txt_high24H"
-            app:layout_constraintTop_toBottomOf="@id/txt_high24H"
+            app:layout_constraintStart_toStartOf="@id/txt_todayOpen"
+            app:layout_constraintTop_toBottomOf="@id/txt_todayOpen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:id="@+id/txt_low24H"
+            android:id="@+id/txt_highToday"
             style="@style/CoinBitText.statisticsText"
-            android:text="Today's Low"
-            app:layout_constraintStart_toStartOf="@id/low24H"
-            app:layout_constraintTop_toBottomOf="@id/low24H"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="Today's High"
+            app:layout_constraintStart_toStartOf="@id/highToday"
+            app:layout_constraintTop_toBottomOf="@id/highToday" />
 
         <TextView
-            android:id="@+id/change24H"
+            android:id="@+id/todayLow"
             style="@style/CoinBitText.statisticsPrice"
             android:text="$5400.4"
             android:layout_marginTop="24dp"
-            app:layout_constraintStart_toStartOf="@id/txt_low24H"
-            app:layout_constraintTop_toBottomOf="@id/txt_low24H"
+            app:layout_constraintStart_toStartOf="@id/txt_highToday"
+            app:layout_constraintTop_toBottomOf="@id/txt_highToday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:id="@+id/txt_change24H"
+            android:id="@+id/txt_todayLow"
             style="@style/CoinBitText.statisticsText"
-            android:text="Today's Change"
-            app:layout_constraintStart_toStartOf="@id/change24H"
-            app:layout_constraintTop_toBottomOf="@id/change24H"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"/>
+            android:layout_marginBottom="24dp"
+            android:text="Today's Low"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/todayLow"
+            app:layout_constraintTop_toBottomOf="@id/todayLow" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guileLine"
@@ -97,7 +97,7 @@
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:id="@+id/totalVolume"
+            android:id="@+id/todayChange"
             android:layout_marginTop="24dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guileLine"
@@ -107,53 +107,53 @@
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:id="@+id/txt_totalVolume"
+            android:id="@+id/txt_todayChange"
             style="@style/CoinBitText.statisticsText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Total Volume"
-            app:layout_constraintStart_toStartOf="@id/totalVolume"
-            app:layout_constraintTop_toBottomOf="@id/totalVolume" />
+            android:text="Today's Change"
+            app:layout_constraintStart_toStartOf="@id/todayChange"
+            app:layout_constraintTop_toBottomOf="@id/todayChange" />
 
         <TextView
-            android:id="@+id/marketCapRank"
+            android:id="@+id/fullName"
             style="@style/CoinBitText.statisticsPrice"
             android:text="$104,000"
             android:layout_marginTop="24dp"
-            app:layout_constraintStart_toStartOf="@id/txt_totalVolume"
-            app:layout_constraintTop_toBottomOf="@id/txt_totalVolume"
+            app:layout_constraintStart_toStartOf="@id/txt_todayChange"
+            app:layout_constraintTop_toBottomOf="@id/txt_todayChange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:id="@+id/txt_marketCapRank"
+            android:id="@+id/txt_fullName"
             style="@style/CoinBitText.statisticsText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="MarketCap Rank"
-            app:layout_constraintStart_toStartOf="@id/marketCapRank"
-            app:layout_constraintTop_toBottomOf="@id/marketCapRank" />
+            android:text="Full Name"
+            app:layout_constraintStart_toStartOf="@id/fullName"
+            app:layout_constraintTop_toBottomOf="@id/fullName" />
 
         <TextView
-            android:id="@+id/highAllTime"
+            android:id="@+id/launchTime"
             style="@style/CoinBitText.statisticsPrice"
             android:text="$5400.4"
             android:layout_marginTop="24dp"
-            app:layout_constraintStart_toStartOf="@id/txt_marketCapRank"
-            app:layout_constraintTop_toBottomOf="@id/txt_marketCapRank"
+            app:layout_constraintStart_toStartOf="@id/txt_fullName"
+            app:layout_constraintTop_toBottomOf="@id/txt_fullName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:id="@+id/txt_highAllTime"
+            android:id="@+id/txt_launchTime"
             style="@style/CoinBitText.statisticsText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:text="High All The Time"
+            android:text="Launch Time"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@id/highAllTime"
-            app:layout_constraintTop_toBottomOf="@id/highAllTime" />
+            app:layout_constraintStart_toStartOf="@id/launchTime"
+            app:layout_constraintTop_toBottomOf="@id/launchTime" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
