@@ -6,41 +6,40 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.ValueFormatter
 import test.example.coincenter.R
 import test.example.coincenter.databinding.CoinActivityBinding
+import test.example.coincenter.main.apiManager.ALL
 import test.example.coincenter.main.apiManager.ApiManager
+import test.example.coincenter.main.apiManager.HOUR
+import test.example.coincenter.main.apiManager.HOURS24
+import test.example.coincenter.main.apiManager.MONTH
+import test.example.coincenter.main.apiManager.MONTH3
+import test.example.coincenter.main.apiManager.WEEK
+import test.example.coincenter.main.apiManager.YEAR
 import test.example.coincenter.main.models.ChartData
 import test.example.coincenter.main.models.CoinData
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class CoinActivity : AppCompatActivity() {
     private val apiManager = ApiManager()
     private lateinit var dataCoin :CoinData.Data
     private lateinit var binding: CoinActivityBinding
+    private var period = HOUR
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = CoinActivityBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        binding.chartLayoutCoin.radioGroup.setOnCheckedChangeListener { group, checkedId ->
-            for (i in 0 until group.childCount) {
-                val rb = group.getChildAt(i) as RadioButton
-                val isSelected = rb.id == checkedId
-                rb.isChecked = isSelected
-
-                val scale = if (isSelected) 1.05f else 1f
-                rb.animate()
-                    .scaleX(scale)
-                    .scaleY(scale)
-                    .setDuration(150)
-                    .start()
-            }
-        }
         binding.swipeRefreshCoin.setOnRefreshListener {
 
             Handler(Looper.getMainLooper()).postDelayed({
@@ -49,19 +48,59 @@ class CoinActivity : AppCompatActivity() {
             }, 1500)
         }
         binding.chartLayoutCoin.radioGroup.setOnCheckedChangeListener { _, checkedId ->
-            when (checkedId) {
-
-                R.id.range12H -> {}
-                R.id.range1D -> {}
-                R.id.range1W -> {}
-                R.id.range1M -> {}
-                R.id.range3M -> {}
-                R.id.range1Y -> {}
-                R.id.rangeAll -> {}
-
+            when(checkedId){
+                R.id.range12H -> {
+                    period = HOUR
+                    lineChartLoad()
+                }
+                R.id.range1D -> {
+                    period = HOURS24
+                    lineChartLoad()
+                }
+                R.id.range1W -> {
+                    period = WEEK
+                    lineChartLoad()
+                }
+                R.id.range1M -> {
+                    period = MONTH
+                    lineChartLoad()
+                }
+                R.id.range3M -> {
+                    period = MONTH3
+                    lineChartLoad()
+                }
+                R.id.range1Y -> {
+                    period = YEAR
+                    lineChartLoad()
+                }
+                R.id.rangeAll -> {
+                    period = ALL
+                    lineChartLoad()
+                }
             }
         }
 
+        initializeChart()
+
+
+    }
+
+    private fun initializeChart() {
+
+        val chart = binding.chartLayoutCoin.chartViewCoin
+
+        chart.setDrawGridBackground(false)
+        chart.setBackgroundColor(Color.TRANSPARENT)
+        chart.description.isEnabled = false
+        chart.axisRight.isEnabled = false
+        val xAxis = chart.xAxis
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.setDrawGridLines(false)
+        xAxis.textColor = Color.LTGRAY
+        val yAxis = chart.axisLeft
+        yAxis.setDrawGridLines(true)
+        yAxis.textColor = Color.LTGRAY
+        chart.legend.isEnabled = false
     }
 
     override fun onResume() {
@@ -140,45 +179,47 @@ class CoinActivity : AppCompatActivity() {
 
         }
 
-//        lineChartLoad()
+        lineChartLoad()
 
     }
 
-//    private fun lineChartLoad() {
-//        binding.chartLayoutCoin.changePriceIconCoin.text = "⬤"
-//        binding.chartLayoutCoin.changePriceIconCoin.setTextColor(
-//            ContextCompat.getColor(this, R.color.noChangePrice)
-//        )
-//        val chart = binding.chartLayoutCoin.chartViewCoin
-//
-//        chart.setTouchEnabled(true)
-//        chart.setPinchZoom(true)
-//        chart.setDrawGridBackground(false)
-//        chart.setBackgroundColor(Color.TRANSPARENT)
-//        chart.description.isEnabled = false
-//        chart.axisRight.isEnabled = false
-//        val xAxis = chart.xAxis
-//        xAxis.position = XAxis.XAxisPosition.BOTTOM
-//        xAxis.setDrawGridLines(false)
-//        xAxis.textColor = Color.LTGRAY
-//        val yAxis = chart.axisLeft
-//        yAxis.setDrawGridLines(true)
-//        yAxis.textColor = Color.LTGRAY
-//        chart.legend.isEnabled = false
-//
-//        apiManager.getDataChart(
-//            "Bitcoin", "usd", "1", "hourly", object : ApiManager.ApiCallBack<ChartData> {
-//                override fun onSuccess(data: ChartData) {
-//                    Log.v("errorChart" , data.toString())
-//                }
-//
-//                override fun onFailure(message: String) {
-//                    Log.v("errorChart" , message)
-//                }
-//
-//            })
-//
-//    }
+    private fun lineChartLoad() {
+
+
+        apiManager.getChartData(period , dataCoin.coinInfo.name , object  :ApiManager.ApiCallBack<ChartData> {
+            override fun onSuccess(data: ChartData) {
+                setupChart( data )
+            }
+
+            override fun onFailure(message: String) {
+                Toast.makeText(this@CoinActivity, "Error => $message", Toast.LENGTH_SHORT).show()
+            }
+        } )
+
+    }
+
+    fun setupChart( chartData: ChartData ) {
+        val entries = chartData.data.data.map {
+            com.github.mikephil.charting.data.Entry(it.time.toFloat() , it.close.toFloat())
+
+        }
+        val dataSet = LineDataSet(entries , "Price").apply {
+            color = Color.GREEN
+            setDrawCircles(false)
+            setDrawValues(false)
+            lineWidth = 2f
+            mode = LineDataSet.Mode.CUBIC_BEZIER
+        }
+        val lineData = LineData(dataSet)
+        binding.chartLayoutCoin.chartViewCoin.data = lineData
+        binding.chartLayoutCoin.chartViewCoin.xAxis.valueFormatter = object  :ValueFormatter(){
+            private val sdf = SimpleDateFormat("HH:mm" , Locale.getDefault())
+            override fun getFormattedValue(value: Float): String {
+                return sdf.format(Date(value.toLong() * 1000))
+            }
+        }
+        binding.chartLayoutCoin.chartViewCoin.invalidate()
+    }
 
     private fun loadStatisticInfo() {
 
@@ -202,4 +243,7 @@ class CoinActivity : AppCompatActivity() {
 
 
     }
+
+
+
 }

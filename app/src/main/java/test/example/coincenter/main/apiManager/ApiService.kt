@@ -23,22 +23,13 @@ interface ApiService {
         @Query("auth_token") auth: String = API_KEY_NEWS
     ) :Call<CoinData>
 
-
-    @GET("coins/markets/")
-    fun getTopCoins(
-        @Query("vs_currency") currency :String = "usd" ,
-        @Query("order") order :String = "market_cap_desc" ,
-        @Query("per_page") quantity :Int = 10 ,
-        @Query("page") page :Int = 1 ,
-        @Query("sparkline") sparkline :Boolean = false
-    ) :Call<List<CoinData>>
-
-    @GET("coins/{id}/market_chart")
+    @GET("/data/v2/{period}")
     fun getChartData(
-        @Path("id") coinId :String,
-        @Query("vs_currency") currency :String = "usd",
-        @Query("days") days :String = "0.5",
-        @Query("interval") interval :String = "hourly" ,
-    ) : Call<ChartData>
+        @Path("period") period :String ,
+        @Query("fsym") fsym :String ,
+        @Query("limit") limit :Int ,
+        @Query("aggregate") aggregate :Int ,
+        @Query("tsym") tsym :String = "USD"
+    ):Call<ChartData>
 
 }
