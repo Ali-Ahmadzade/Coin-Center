@@ -14,5 +14,6 @@
     <color name="incPrice">#00C853</color>
     <color name="decPrice">#F44336</color>
     <color name="noChangePrice">#9E9E9E</color>
+    <color name="lineColor">#5CDABA</color>
 
 </resources>

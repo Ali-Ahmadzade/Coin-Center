@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.widget.RadioButton
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.components.XAxis
@@ -30,8 +29,9 @@ import java.util.Date
 import java.util.Locale
 
 class CoinActivity : AppCompatActivity() {
+
     private val apiManager = ApiManager()
-    private lateinit var dataCoin :CoinData.Data
+    private lateinit var dataCoin: CoinData.Data
     private lateinit var binding: CoinActivityBinding
     private var period = HOUR
 
@@ -40,15 +40,26 @@ class CoinActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        binding.swipeRefreshCoin.setOnRefreshListener {
+        dataCoin = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra("selectedCoinData", CoinData.Data::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            intent.getParcelableExtra("selectedCoinData") as? CoinData.Data
+        }!!
 
+        binding.includeToolBarCoin.toolBarMain.title = dataCoin.coinInfo.fullName
+
+        binding.swipeRefreshCoin.setOnRefreshListener {
             Handler(Looper.getMainLooper()).postDelayed({
                 loadCoin()
                 binding.swipeRefreshCoin.isRefreshing = false
             }, 1500)
         }
+
+        setupChartStyle()
+
         binding.chartLayoutCoin.radioGroup.setOnCheckedChangeListener { _, checkedId ->
-            when(checkedId){
+            when (checkedId) {
                 R.id.range12H -> {
                     period = HOUR
                     lineChartLoad()
@@ -80,170 +91,154 @@ class CoinActivity : AppCompatActivity() {
             }
         }
 
-        initializeChart()
-
-
-    }
-
-    private fun initializeChart() {
-
-        val chart = binding.chartLayoutCoin.chartViewCoin
-
-        chart.setDrawGridBackground(false)
-        chart.setBackgroundColor(Color.TRANSPARENT)
-        chart.description.isEnabled = false
-        chart.axisRight.isEnabled = false
-        val xAxis = chart.xAxis
-        xAxis.position = XAxis.XAxisPosition.BOTTOM
-        xAxis.setDrawGridLines(false)
-        xAxis.textColor = Color.LTGRAY
-        val yAxis = chart.axisLeft
-        yAxis.setDrawGridLines(true)
-        yAxis.textColor = Color.LTGRAY
-        chart.legend.isEnabled = false
+        loadCoin()
     }
 
     override fun onResume() {
         super.onResume()
-        loadData()
-        binding.includeToolBarCoin.toolBarMain.title = dataCoin.coinInfo.fullName
         loadCoin()
     }
 
-    private fun loadData() {
-
-        dataCoin = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getParcelableExtra("selectedCoinData", CoinData.Data::class.java)
-        } else {
-            @Suppress("DEPRECATION")
-            intent.getParcelableExtra("selectedCoinData") as? CoinData.Data
-        }!!
-
-
-    }
-
     private fun loadCoin() {
-        loadChartInfo()
+        updatePriceInfo()
+        lineChartLoad()
         loadStatisticInfo()
     }
 
-    private fun loadChartInfo() {
+    private fun updatePriceInfo() {
+        val chart = binding.chartLayoutCoin
 
         if (dataCoin.coinInfo.name == "USDC" || dataCoin.coinInfo.name == "USDT") {
+            chart.coinPriceCoin.text = "$ 1.00"
+            chart.changePriceIconCoin.text = "⬤"
+            chart.priceChangeCoin.text = "$0.00"
+            chart.priceChangePercentCoin.text = "0%"
 
-            binding.chartLayoutCoin.coinPriceCoin.text = "$ 1.00"
-            binding.chartLayoutCoin.changePriceIconCoin.text = "⬤"
-            binding.chartLayoutCoin.priceChangePercentCoin.setTextColor(
-                ContextCompat.getColor(this, R.color.noChangePrice)
-            )
-            binding.chartLayoutCoin.changePriceIconCoin.setTextColor(
-                ContextCompat.getColor(this, R.color.noChangePrice)
-            )
-            binding.chartLayoutCoin.priceChangeCoin.text = "$0.00"
-            binding.chartLayoutCoin.priceChangePercentCoin.text = "0%"
-        }else{
-            binding.chartLayoutCoin.coinPriceCoin.text = dataCoin.dISPLAY.uSD.pRICE
-            binding.chartLayoutCoin.priceChangeCoin.text = dataCoin.dISPLAY.uSD.cHANGE24HOUR
+            val color = ContextCompat.getColor(this, R.color.noChangePrice)
+            chart.priceChangePercentCoin.setTextColor(color)
+            chart.changePriceIconCoin.setTextColor(color)
 
-            if (dataCoin.rAW.uSD.cHANGE24HOUR>0){
-                binding.chartLayoutCoin.priceChangePercentCoin.text = "+"+dataCoin.dISPLAY.uSD.cHANGEPCT24HOUR+"%"
-                binding.chartLayoutCoin.changePriceIconCoin.text = "▲"
-                binding.chartLayoutCoin.priceChangePercentCoin.setTextColor(
-                    ContextCompat.getColor(this, R.color.incPrice)
-                )
-                binding.chartLayoutCoin.changePriceIconCoin.setTextColor(
-                    ContextCompat.getColor(this, R.color.incPrice)
-                )
+        } else {
+            chart.coinPriceCoin.text = dataCoin.dISPLAY.uSD.pRICE
+            chart.priceChangeCoin.text = dataCoin.dISPLAY.uSD.cHANGE24HOUR
 
-            }else if (dataCoin.rAW.uSD.cHANGE24HOUR<0){
-                binding.chartLayoutCoin.priceChangePercentCoin.text = dataCoin.dISPLAY.uSD.cHANGEPCT24HOUR+"%"
-                binding.chartLayoutCoin.changePriceIconCoin.text = "▼"
-                binding.chartLayoutCoin.priceChangePercentCoin.setTextColor(
-                    ContextCompat.getColor(this, R.color.decPrice)
-                )
-                binding.chartLayoutCoin.changePriceIconCoin.setTextColor(
-                    ContextCompat.getColor(this, R.color.decPrice)
-                )
+            val change = dataCoin.rAW.uSD.cHANGE24HOUR
+            val changeText = dataCoin.dISPLAY.uSD.cHANGEPCT24HOUR + "%"
+            val incColor = ContextCompat.getColor(this, R.color.incPrice)
+            val decColor = ContextCompat.getColor(this, R.color.decPrice)
+            val noChangeColor = ContextCompat.getColor(this, R.color.noChangePrice)
 
-            }else{
-                binding.chartLayoutCoin.priceChangePercentCoin.text = dataCoin.dISPLAY.uSD.cHANGEPCT24HOUR+"%"
-                binding.chartLayoutCoin.changePriceIconCoin.text = "⬤"
-                binding.chartLayoutCoin.priceChangePercentCoin.setTextColor(
-                    ContextCompat.getColor(this, R.color.noChangePrice)
-                )
-                binding.chartLayoutCoin.changePriceIconCoin.setTextColor(
-                    ContextCompat.getColor(this, R.color.noChangePrice)
-                )
-
+            when {
+                change > 0 -> {
+                    chart.priceChangePercentCoin.text = "+$changeText"
+                    chart.changePriceIconCoin.text = "▲"
+                    chart.priceChangePercentCoin.setTextColor(incColor)
+                    chart.changePriceIconCoin.setTextColor(incColor)
+                }
+                change < 0 -> {
+                    chart.priceChangePercentCoin.text = changeText
+                    chart.changePriceIconCoin.text = "▼"
+                    chart.priceChangePercentCoin.setTextColor(decColor)
+                    chart.changePriceIconCoin.setTextColor(decColor)
+                }
+                else -> {
+                    chart.priceChangePercentCoin.text = changeText
+                    chart.changePriceIconCoin.text = "⬤"
+                    chart.priceChangePercentCoin.setTextColor(noChangeColor)
+                    chart.changePriceIconCoin.setTextColor(noChangeColor)
+                }
             }
+        }
+    }
 
+    private fun setupChartStyle() {
+        val chart = binding.chartLayoutCoin.chartViewCoin
+        chart.apply {
+            setDrawGridBackground(false)
+            setBackgroundColor(Color.TRANSPARENT)
+            description.isEnabled = false
+            axisRight.isEnabled = false
+            legend.isEnabled = false
         }
 
-        lineChartLoad()
+        chart.xAxis.apply {
+            position = XAxis.XAxisPosition.BOTTOM
+            setDrawGridLines(false)
+            textColor = Color.LTGRAY
+        }
 
+        chart.axisLeft.apply {
+            setDrawGridLines(true)
+            textColor = Color.LTGRAY
+        }
     }
 
     private fun lineChartLoad() {
-
-
-        apiManager.getChartData(period , dataCoin.coinInfo.name , object  :ApiManager.ApiCallBack<ChartData> {
+        apiManager.getChartData(period, dataCoin.coinInfo.name, object : ApiManager.ApiCallBack<ChartData> {
             override fun onSuccess(data: ChartData) {
-                setupChart( data )
+                setupChart(data)
             }
 
             override fun onFailure(message: String) {
                 Toast.makeText(this@CoinActivity, "Error => $message", Toast.LENGTH_SHORT).show()
             }
-        } )
-
+        })
     }
 
-    fun setupChart( chartData: ChartData ) {
+    fun setupChart(chartData: ChartData) {
         val entries = chartData.data.data.map {
-            com.github.mikephil.charting.data.Entry(it.time.toFloat() , it.close.toFloat())
-
+            com.github.mikephil.charting.data.Entry(it.time.toFloat(), it.close.toFloat())
         }
-        val dataSet = LineDataSet(entries , "Price").apply {
-            color = Color.GREEN
+
+        val dataSet = LineDataSet(entries, "Price").apply {
+            color = ContextCompat.getColor( this@CoinActivity , R.color.lineColor )
             setDrawCircles(false)
             setDrawValues(false)
-            lineWidth = 2f
+            lineWidth = 2.5f
             mode = LineDataSet.Mode.CUBIC_BEZIER
         }
+
         val lineData = LineData(dataSet)
         binding.chartLayoutCoin.chartViewCoin.data = lineData
-        binding.chartLayoutCoin.chartViewCoin.xAxis.valueFormatter = object  :ValueFormatter(){
-            private val sdf = SimpleDateFormat("HH:mm" , Locale.getDefault())
+
+
+
+
+
+        binding.chartLayoutCoin.chartViewCoin.xAxis.valueFormatter = object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
-                return sdf.format(Date(value.toLong() * 1000))
+                val timeMillis = value.toLong() * 1000
+                val sdf = when (period) {
+                    HOUR, HOURS24 -> SimpleDateFormat("HH:mm", Locale.getDefault())
+                    WEEK, MONTH -> SimpleDateFormat("MM/dd", Locale.getDefault())
+                    MONTH3, YEAR, ALL -> SimpleDateFormat("MMM yyyy", Locale.getDefault())
+                    else -> SimpleDateFormat("dd/MM", Locale.getDefault())
+                }
+                return sdf.format(Date(timeMillis))
             }
         }
+
         binding.chartLayoutCoin.chartViewCoin.invalidate()
     }
 
-    private fun loadStatisticInfo() {
 
+    private fun loadStatisticInfo() {
+        val stats = binding.statisticsLayoutCoin
+        val usdDisplay = dataCoin.dISPLAY.uSD
+
+        stats.fullName.text = dataCoin.coinInfo.fullName
+        stats.launchTime.text = dataCoin.coinInfo.assetLaunchDate
 
         if (dataCoin.coinInfo.name == "USDC" || dataCoin.coinInfo.name == "USDT") {
-            binding.statisticsLayoutCoin.todayOpen.text = "$ 1.00"
-            binding.statisticsLayoutCoin.highToday.text = "$ 1.00"
-            binding.statisticsLayoutCoin.todayLow.text = "$ 1.00"
-            binding.statisticsLayoutCoin.todayChange.text = "$ 0.00"
-            binding.statisticsLayoutCoin.fullName.text = dataCoin.coinInfo.fullName
-            binding.statisticsLayoutCoin.launchTime.text = dataCoin.coinInfo.assetLaunchDate
-        }else{
-            binding.statisticsLayoutCoin.todayOpen.text = dataCoin.dISPLAY.uSD.oPENDAY
-            binding.statisticsLayoutCoin.highToday.text = dataCoin.dISPLAY.uSD.hIGHDAY
-            binding.statisticsLayoutCoin.todayLow.text = dataCoin.dISPLAY.uSD.lOWDAY
-            binding.statisticsLayoutCoin.todayChange.text = dataCoin.dISPLAY.uSD.cHANGEDAY
-            binding.statisticsLayoutCoin.fullName.text = dataCoin.coinInfo.fullName
-            binding.statisticsLayoutCoin.launchTime.text = dataCoin.coinInfo.assetLaunchDate
+            stats.todayOpen.text = "$ 1.00"
+            stats.highToday.text = "$ 1.00"
+            stats.todayLow.text = "$ 1.00"
+            stats.todayChange.text = "$ 0.00"
+        } else {
+            stats.todayOpen.text = usdDisplay.oPENDAY
+            stats.highToday.text = usdDisplay.hIGHDAY
+            stats.todayLow.text = usdDisplay.lOWDAY
+            stats.todayChange.text = usdDisplay.cHANGEDAY
         }
-
-
-
     }
-
-
-
 }
